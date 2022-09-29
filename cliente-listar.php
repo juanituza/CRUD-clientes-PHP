@@ -10,22 +10,10 @@ include_once("index.php");
 
 $cliente = new Cliente();
 $aClientes = $cliente->obtenerTodos();
-
-
-
-
-
-
 ?>
 
 <main id="main" class="main">
     <section class="section">
-        <!-- <li class="nav-item d-block d-lg-none">
-            <a class="nav-link nav-icon search-bar-toggle " href="#">
-                <i class="bi bi-search"></i>
-            </a>
-        </li> -->
-
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 mx-5">
@@ -104,19 +92,9 @@ $aClientes = $cliente->obtenerTodos();
                     <a href="cliente-nuevo.php" class="btn btn-primary mr-2">Nuevo</a>
                 </div>
             </div>
-            <div class="row">
+           <!--  <div class="row">
                 <div class="col-12">
                     <form action="" class="search-form d-flex align-items-center" method="GET">
-                        <!--
-                        <input type="text" class="text" name="xCliente" placeholder="DNI...">
-                         <select name="xDni" id="xDni">
-                            <option value="" disabled selected>Seleccionar</option>
-                            <?php foreach ($aClientes as $key) : ?>
-                                <option selected value="<?php echo  $key->dni; ?>"><?php echo  $key->dni; ?> </option>;
-                            <?php endforeach; ?>
-                        </select> 
-                    <button class="btn btn-secondary" name="btnBuscar" type="submit">Buscar</button>
-                    -->
                         <div class="input-group mb-3 search-bar">
                             <input type="text" name="buscar" value="<?php if (isset($_GET['buscar'])) {
                                                                         echo $_GET['buscar'];
@@ -126,5 +104,5 @@ $aClientes = $cliente->obtenerTodos();
                     </form>
                 </div>
 
-            </div>
+            </div> -->
         </div>

@@ -61,7 +61,7 @@ $pg = "header";
         <li class="breadcrumb-item active mt-3"><a href="cliente-listar.php">Cliente</a></li>
       </ol>
     </div>
-    
+
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -75,7 +75,7 @@ $pg = "header";
           </button>
         </li>
       </ul>
-    </nav><!-- End Icons Navigation -->
+    </nav>
 
     <body>
 
@@ -86,29 +86,26 @@ $pg = "header";
           <aside id="sidebar" class="sidebar">
 
             <ul class="sidebar-nav" id="sidebar-nav">
-
-
-
-              <li   class="nav-item ">
-                <a id="listados_titulos" class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                  <i id="listados_titulos" class="bi bi-menu-button-wide"></i><span>Clientes</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                  <li>
-                    <a id="listados" href="cliente-listar.php">
-                      <i class="bi bi-circle"></i>
-                      <span>Listado Clientes</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a id="listados" href="cliente-nuevo.php">
-                      <i class="bi bi-circle"></i>
-                      <span>Nuevo Cliente</span>
-                    </a>
-                  </li>
-
-                </ul>
-              </li><!-- End Components Nav -->
+                <li class="nav-item ">
+                  <a id="listados_titulos" class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                    <i id="listados_titulos" class="bi bi-menu-button-wide"></i><span>Clientes</span><i class="bi bi-chevron-down ms-auto"></i>
+                  </a>
+                  <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                      <a id="listados" href="cliente-listar.php">
+                        <i class="bi bi-circle"></i>
+                        <span>Listado Clientes</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a id="listados" href="cliente-nuevo.php">
+                        <i class="bi bi-circle"></i>
+                        <span>Nuevo Cliente</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              <ul>
         </section>
       </main>
     </body>

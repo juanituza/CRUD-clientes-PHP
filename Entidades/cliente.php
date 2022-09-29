@@ -97,7 +97,7 @@ class Cliente
         $mysqli->close();
     }
 
-    public function obtenerPorId()
+     public function obtenerPorId()
     {
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
         $sql = "SELECT idcliente,
@@ -108,34 +108,6 @@ class Cliente
                         telefono
                 FROM clientes
                 WHERE idcliente = $this->idcliente";
-        if (!$resultado = $mysqli->query($sql)) {
-            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
-        }
-
-        //Convierte el resultado en un array asociativo
-        if ($fila = $resultado->fetch_assoc()) {
-            $this->idcliente = $fila["idcliente"];
-            $this->dni = $fila["dni"];
-            $this->nombre = $fila["nombre"];
-            $this->apellido = $fila["apellido"];
-            $this->fk_idgenero = $fila["fk_idgenero"];
-            $this->telefono = $fila["telefono"];
-            
-        }
-        $mysqli->close();
-
-    }
-    public function obtenerPorDni()
-    {
-        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
-        $sql = "SELECT idcliente,
-                        dni,
-                        nombre,
-                        apellido,
-                        fk_idgenero,
-                        telefono
-                FROM clientes
-                WHERE dni = $this->dni";
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
         }
