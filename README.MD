@@ -15,16 +15,28 @@
 ## Rapidfire  
 <table><tr><td valign="top" width="50%">
 
-Proyecto realizado para challenge laboral.  
+
+
+### TIPO DE TRABAJO  
+Proyecto realizado para challenge laboral.👍  
   
 
+
+
+### MI PERFIL  
 Iniciando mi camino en la programación. 
 Realizando cursos y capacitaciones para formarme en la carrera.
-  
+🤓  
 
 
 </td><td valign="top" width="50%">
 
+
+
+### SOBRE EL PROYECTO  
+Proyecto realizado con HTML,CSS, MySQL y PHP. 
+Se trata de una app web donde se trabaja un listado de cliente y se puede realizar el alta, baja y modificación de cada cliente en particular.
+  
 
 
 </td></tr></table>  
