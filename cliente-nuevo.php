@@ -5,10 +5,13 @@ include_once "entidades/cliente.php";
 include_once "entidades/genero.php";
 include_once("index.php");
 
+
+
+
 $cliente = new Cliente();
 $cliente->cargarFormulario($_REQUEST);
 
-$pg = "cliente nuevo";
+
 
 if ($_POST) {
     if (isset($_POST["btnGuardar"])) {
@@ -18,14 +21,14 @@ if ($_POST) {
         } else {
             //Es nuevo
             $cliente->insertar();
-        }
-        /* $msg["texto"] = "Guardado correctamente";
-        $msg["codigo"] = "alert-success"; */
+            header("Location:cliente-listar.php");
+            
+        }   
     } else if (isset($_POST["btnBorrar"])) {
         $cliente->eliminar();
         /* $msg["texto"] = "Eliminado exitosamente";
         $msg["codigo"] = "alert alert-warning"; */
-        /* header("Location:cliente-nuevo.php"); */
+        header("Location:cliente-listar.php");
     }
 }
 if (isset($_GET["id"]) && $_GET["id"] > 0) {
@@ -44,7 +47,7 @@ $aGeneros = $genero->obtenerTodos();
 
             <!-- Page Heading -->
             <h1 class="h3 mb-4 text-gray-800">Cliente</h1>
-            <?php if (isset($msg)) : ?>
+            <!--  <?php if (isset($msg)) : ?>
                 <div class="row">
                     <div class="col-12">
                         <div class="alert <?php echo $msg["codigo"]; ?>" role="alert">
@@ -52,99 +55,139 @@ $aGeneros = $genero->obtenerTodos();
                         </div>
                     </div>
                 </div>
-            <?php endif; ?>
+            <?php endif; ?> -->
             <div class="row table table-hover border shadow">
-                <form class="d-grid mx-5" method="POST">
-                    <div class="col-6 form-group">
-                        <label class="mx-5 mt-3" for="txtDni">DNI:</label>
-                        <input type="text" required class="form-control shadow mx-5 " name="txtDni" id="txtDni" value="<?php echo $cliente->dni ?>" maxlength="11">
-                    </div>
-                    <div class="col-6 form-group">
-                        <label class="mx-5 mt-3" for="txtNombre">Nombre:</label>
-                        <input type="text" required class="form-control shadow mx-5 " name="txtNombre" id="txtNombre" value="<?php echo $cliente->nombre ?>">
-                    </div>
-                    <div class="col-6 form-group">
-                        <label class="mx-5 mt-3" for="txtApellido">Apellido:</label>
-                        <input type="text" class="form-control shadow mx-5 " name="txtApellido" id="txtApellido" required value="<?php echo $cliente->apellido ?>">
-                    </div>
-                    <div class="col-6 form-group">
-                        <label class="mx-5 mt-3" for="lstGenero">Género:</label>
-                        <select class="form-control shadow mx-5 " name="lstGenero" id="lstGenero">
-                            <option value="" disabled selected>Seleccionar</option>
-                            <?php foreach ($aGeneros as $genero) : ?>
-                                <?php if ($cliente->fk_idgenero == $genero->idgenero) : ?>
-                                    <option selected value="<?php echo $genero->idgenero; ?>"><?php echo $genero->tipo; ?></option>
-                                <?php else : ?>
-                                    <option value="<?php echo $genero->idgenero; ?>"><?php echo $genero->tipo; ?></option>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label class="mx-5 mt-3" for="txt">Telefono:</label>
-                        <input type="number" class="form-control shadow mx-5 mb-3" name="txtTelefono" id="txtTelefono" value="<?php echo $cliente->telefono ?>">
+                <form class="d-grid mx-5 g-3 was-validated" method="POST" action="/Entidades/cliente.php">
 
+
+                    <div class="col-6">
+
+                        <div class="form-floating mb-3 mt-3">
+                            <input type="text" required class="form-control shadow mx-5" name="txtDni" id="txtDni" pattern="^[0-9]+" value="<?php echo $cliente->dni ?>" maxlength="11" placeholder="DNI">
+                            <label class="mx-5" for="txtDni">DNI:</label>
+                            <div class="valid-feedback mx-5">Documento válido.</div>
+                            <div class="invalid-feedback mx-5">Debe contener solo números</div>
+                        </div>
                     </div>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div style="visibility:hidden " class="col-8">
-                <p>Listado</p>
-            </div>
-            <div class="col-4 mt-3">
-                <a href="cliente-listar.php" class="btn btn-primary mr-2">Listado</a>
-                <button type="button" class="btn btn-success mr-2" id="btnGuardar" name="btnGuardar" data-bs-toggle="modal" data-bs-target="#GuardarModal">
-                    Guardar
-                </button>
-                <!-- <button type=" submit" href="#" class="btn btn-danger" id="btnBorrar" name="btnBorrar" data-bs-toggle="modal" data-bs-target="#exampleModal">Borrar</button> -->
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Borrar
-                </button>
-            </div>
-            <!-- Button trigger modal -->
+                    <div class="col-6 ">
+                        <div class="form-floating mb-3 mt-3">
+                            <input type="text" required class="form-control shadow mx-5" name="txtNombre" id="txtNombre" pattern="^[a-zA-Z\s]{2,254}" placeholder=" Nombre" value="<?php echo $cliente->nombre ?>">
+                            <label class="mx-5" for="txtNombre">Nombre:</label>
+                            <div class="valid-feedback mx-5">Nombre correcto!.</div>
+                            <div class="invalid-feedback mx-5">Debe contener solo letras.</div>
+                        </div>
+                    </div>
+                    <div class="col-6 form-group">
+                        <div class="form-floating mb-3 mt-3">
+                            <input type="text" class="form-control shadow mx-5 " name="txtApellido" id="txtApellido" pattern="^[a-zA-Z\s]{2,254}" placeholder="Apellido" required value="<?php echo $cliente->apellido ?>">
+                            <label class="mx-5" for="txtApellido">Apellido:</label>
+                            <div class="valid-feedback mx-5">Nombre correcto!.</div>
+                            <div class="invalid-feedback mx-5">Debe contener solo letras.</div>
+                        </div>
+                    </div>
+                    <div class="col-6 form-floating">
+                        <div class="form-floating mb-3 mt-3">
+                            <select class="form-control shadow mx-5 " name="lstGenero" id="lstGenero">
+                                <option value="" disabled selected>Seleccionar</option>
+                                <?php foreach ($aGeneros as $genero) : ?>
+                                    <?php if ($cliente->fk_idgenero == $genero->idgenero) : ?>
+                                        <option selected value="<?php echo $genero->idgenero; ?>"><?php echo $genero->tipo; ?></option>
+                                    <?php else : ?>
+                                        <option value="<?php echo $genero->idgenero; ?>"><?php echo $genero->tipo; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                            <label class="mx-5" for="lstGenero">Género:</label>
+                            <div class="valid-feedback mx-5">Género correcto!.</div>
+                            <div class="invalid-feedback mx-5">Debe contener solo letras.</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-floating mb-3 mt-3">
+                            <input type="text" class="form-control shadow mx-5 mb-3" placeholder="Telefono" pattern="^[0-9]+" name="txtTelefono" id="txtTelefono" required value="<?php echo $cliente->telefono ?>">
+                            <label class="mx-5" for="txtTelefono">Telefono:</label>
+                            <div class="valid-feedback mx-5">Número de teléfono correcto!.</div>
+                            <div class="invalid-feedback mx-5">Debe contener solo números</div>
+                        </div>
+                    </div>
 
-            <!-- Modal -->
-            <div class="modal fade" id="GuardarModal" tabindex="3" aria-labelledby="GuardarModal" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content text-center">
 
-                        <div class="modal-body">
-                            <i class="fa-solid fa-check my-5" style="scale:500%; color:green"></i>
-                            <h4 class="modal-title my-3 py-3" id="GuardarModal">Operación exitosa!</h4>
-                            
-                            <button type="submit" class=" btn btn-secondary" data-bs-dismiss="modal" id="btnGuardar" name="btnGuardar">
-                                Cerrar
+                    <div class="row mt-3">
+                        <div style="visibility:hidden " class="col-8">
+                            <p>Listado</p>
+                        </div>
+                        <div class="col-4 mt-3">
+                            <a href="cliente-listar.php" class="btn btn-primary mr-2">Listado</a>
+                            <button type="button" class="btn btn-success mr-2" id="btnGuardar1" name="btnGuardar1" data-bs-toggle="modal" data-bs-target="#GuardarModal">
+                                Guardar
                             </button>
+                            <!-- <button type=" submit" href="#" class="btn btn-danger" id="btnBorrar" name="btnBorrar" data-bs-toggle="modal" data-bs-target="#exampleModal">Borrar</button> -->
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Borrar
+                            </button>
+                        </div>
+                        <!-- Button trigger modal -->
 
+                        <!-- Modal -->                       
+                        <div class="modal fade" id="GuardarModal" tabindex="3" aria-labelledby="GuardarModal" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content text-center">
+                                    <div class="modal-body">
+                                        <i class="fa-solid fa-check my-5" style="scale:500%; color:green"></i>
+                                        <h4 class="modal-title my-3 py-3" id="GuardarModal">Operación exitosa!</h4>
 
+                                        <button type="submit" class=" btn btn-secondary" data-bs-dismiss="modal" id="btnGuardar" name="btnGuardar">
+                                            Cerrar
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>"                       
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content text-center">
+                                    <div class="modal-body">
+                                        <i class="fa-solid fa-circle-exclamation my-5" style="scale:500%; color:orange;"></i>
+                                        <h5 class="modal-title my-3" style="color: grey;" id="exampleModalLabel">Estas seguro?</h5>
+                                        <p class="my-3" style="color: grey;">El elemento elminado no podrá recuperarse</p>
+
+                                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" id="btnBorrar" name="btnBorrar">Confirmar</button>
+                                        <a type="button" href="cliente-listar.php" class="btn btn-danger">Cancelar</a>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content text-center">
 
-                        <div class="modal-body">
-                            <i class="fa-solid fa-circle-exclamation my-5" style="scale:500%; color:orange;"></i>
-                            <h5 class="modal-title my-3" style="color: grey;" id="exampleModalLabel">Estas seguro?</h5>
-                            <p class="my-3" style="color: grey;">El elemento elminado no podrá recuperarse</p>
-                            <a href="cliente-listar.php">
-                                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" id="btnBorrar" name="btnBorrar">Confirmar</button>
-                            </a>
-                            <a type="button" href="cliente-listar.php" class="btn btn-danger">Cancelar</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </form>
+                </form>
     </section>
-
 </main>
 
 
-<script src="web/js/jquery-3.4.1.min.js"></script>
+<script src="web/js/jquery-3.4.1.min.js">
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
 <!-- popper js -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
 </script>

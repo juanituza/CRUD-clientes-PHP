@@ -1,7 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
+
 include_once "config.php";
 include_once "entidades/cliente.php";
 include_once("index.php");
@@ -10,6 +9,7 @@ include_once("index.php");
 
 $cliente = new Cliente();
 $aClientes = $cliente->obtenerTodos();
+
 ?>
 
 <main id="main" class="main">

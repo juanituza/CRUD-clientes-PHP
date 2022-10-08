@@ -1,9 +1,11 @@
 <?php
 
+
 class Genero
 {
     private $idgenero;
     private $tipo;
+  
 
 
     public function __construct()
