@@ -1,10 +1,4 @@
 <?php
-
-
-/* require 'config.php'; */
-
-
-
 class Cliente
 {
     private $idcliente;
@@ -50,9 +44,8 @@ class Cliente
     {
         
         //Instancia la clase mysqli con el constructor parametrizado
-     $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
-       /* $mysqli = new Config;
-       $mysqli->conectar(); */
+       $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+      
        //Arma la query
        $sql = "INSERT INTO clientes (
                     dni,
@@ -67,10 +60,9 @@ class Cliente
                     '$this->fk_idgenero',
                     '$this->telefono'
                 );";
-         
-         
         //Ejecuta la query
-        if (!$mysqli->query($sql)) {
+        if (!$mysqli->query($sql)) 
+        {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
         }
         //Obtiene el id generado por la inserción

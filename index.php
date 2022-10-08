@@ -54,7 +54,7 @@ $pg = "header";
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="index.php" class="logo d-flex align-items-center">
         <span id="titulo" class=" d-none d-lg-block"><span style="color:orange;font-size: 35px;">C</span>lien<span style="color:orange;font-size: 35px;">T</span>es</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>

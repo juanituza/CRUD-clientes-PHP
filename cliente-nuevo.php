@@ -3,7 +3,7 @@
 include_once "config.php";
 include_once "entidades/cliente.php";
 include_once "entidades/genero.php";
-include_once("index.php");
+include_once "index.php";
 
 
 
@@ -57,7 +57,7 @@ $aGeneros = $genero->obtenerTodos();
                 </div>
             <?php endif; ?> -->
             <div class="row table table-hover border shadow">
-                <form class="d-grid mx-5 g-3 was-validated" method="POST" action="/Entidades/cliente.php">
+                <form class="d-grid mx-5 g-3 was-validated" method="POST">
 
 
                     <div class="col-6">
@@ -143,7 +143,7 @@ $aGeneros = $genero->obtenerTodos();
                                     </div>
                                 </div>
                             </div>
-                        </div>"                       
+                        </div>                       
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content text-center">
@@ -166,28 +166,7 @@ $aGeneros = $genero->obtenerTodos();
 </main>
 
 
-<script src="web/js/jquery-3.4.1.min.js">
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-        'use strict'
 
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
-</script>
 <!-- popper js -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
 </script>
