@@ -6,11 +6,11 @@ error_reporting(E_ALL);
 
 
 class Config {
-    const BBDD_HOST = "127.0.0.1";
+    /* const BBDD_HOST = "127.0.0.1";
     const BBDD_PORT = "3306";
     const BBDD_USUARIO = "root";
     const BBDD_CLAVE = "";
-    const BBDD_NOMBRE = "teco_clientes";
+    const BBDD_NOMBRE = "teco_clientes"; */
     
     function conectar(){
         $user="root";
