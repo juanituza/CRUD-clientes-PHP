@@ -42,24 +42,18 @@ $aClientes = $cliente->obtenerTodos();
                                         <th>NOMBRE</th>
                                         <th>TELEFONO</th>
                                         <th>GÉNERO</th>
-                                        <th><i class="fas fa-search"></i></th>
+                                        <th class="text-center"><i class="fas fa-search"></i></th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     
                                     <?php foreach ($aClientes as $item) : ?>
-                                        <tr>
-                                           
+                                        <tr>                                           
                                             <td>
-
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="Radios" id="Radios1" value="option1" checked>
-                                                    <label class="form-check-label" for="Radios1">
-                                                        <?php echo $item->idcliente; ?>
-
-                                                    </label>
-                                                </div>
+                                                <span class="form-check-label" for="Radios1">
+                                                    <?php echo $item->idcliente; ?>
+                                                </span>                                                
                                             </td>
                                             <td value="<?php echo $item->dni; ?><?php echo $item->dni; ?>"><?php echo $item->dni; ?></td>
                                             <td><?php echo $item->nombre . " " . $item->apellido; ?></td>

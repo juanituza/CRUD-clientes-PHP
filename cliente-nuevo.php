@@ -18,17 +18,16 @@ if ($_POST) {
         if (isset($_GET["id"]) && $_GET["id"] > 0) {
             //Actualizo un cliente existente
             $cliente->actualizar();
+            
             header("Location:cliente-listar.php");
         } else {
             //Es nuevo
             $cliente->insertar();
             header("Location:cliente-listar.php");
-            
-        }   
+        }
+
     } else if (isset($_POST["btnBorrar"])) {
         $cliente->eliminar();
-        /* $msg["texto"] = "Eliminado exitosamente";
-        $msg["codigo"] = "alert alert-warning"; */
         header("Location:cliente-listar.php");
     }
 }
@@ -48,17 +47,8 @@ $aGeneros = $genero->obtenerTodos();
 
             <!-- Page Heading -->
             <h1 class="h3 mb-4 text-gray-800">Cliente</h1>
-            <!--  <?php if (isset($msg)) : ?>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="alert <?php echo $msg["codigo"]; ?>" role="alert">
-                            <?php echo $msg["texto"]; ?>
-                        </div>
-                    </div>
-                </div>
-            <?php endif; ?> -->
             <div class="row table table-hover border shadow">
-                <form class="d-grid mx-5 g-3 was-validated" method="POST">
+                <form class="d-grid mx-5 g-3 needs-validation" novalidate method="POST">
 
 
                     <div class="col-6">
@@ -86,9 +76,9 @@ $aGeneros = $genero->obtenerTodos();
                             <div class="invalid-feedback mx-5">Debe contener solo letras.</div>
                         </div>
                     </div>
-                    <div class="col-6 form-floating">
+                    <div class="col-6">
                         <div class="form-floating mb-3 mt-3">
-                            <select class="form-control shadow mx-5 " name="lstGenero" id="lstGenero">
+                            <select class="form-select  shadow mx-5 " name="lstGenero" id="lstGenero">
                                 <option value="" disabled selected>Seleccionar</option>
                                 <?php foreach ($aGeneros as $genero) : ?>
                                     <?php if ($cliente->fk_idgenero == $genero->idgenero) : ?>
@@ -98,9 +88,9 @@ $aGeneros = $genero->obtenerTodos();
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                             </select>
-                            <label class="mx-5" for="lstGenero">Género:</label>
-                            <div class="valid-feedback mx-5">Género correcto!.</div>
-                            <div class="invalid-feedback mx-5">Debe contener solo letras.</div>
+                            <label class="mx-5 form-label" for="lstGenero">Género:</label>
+                            <!-- <div class="valid-feedback mx-5">Género correcto!.</div>
+                            <div class="invalid-feedback mx-5">Debe contener solo letras.</div> -->
                         </div>
                     </div>
                     <div class="col-6">
@@ -119,18 +109,18 @@ $aGeneros = $genero->obtenerTodos();
                         </div>
                         <div class="col-4 mt-3">
                             <a href="cliente-listar.php" class="btn btn-primary mr-2">Listado</a>
-                            <button type="button" class="btn btn-success mr-2" id="btnGuardar1" name="btnGuardar1" data-bs-toggle="modal" data-bs-target="#GuardarModal">
+                            <button type="submit" class="btn btn-success mr-2" id="btnGuardar" name="btnGuardar" data-bs-toggle="modal" data-bs-target="#GuardarModal">
                                 Guardar
                             </button>
-                            <!-- <button type=" submit" href="#" class="btn btn-danger" id="btnBorrar" name="btnBorrar" data-bs-toggle="modal" data-bs-target="#exampleModal">Borrar</button> -->
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+
+                            <button type="submit" class="btn btn-danger" id="btnBorrar" name="btnBorrar" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Borrar
                             </button>
                         </div>
                         <!-- Button trigger modal -->
 
-                        <!-- Modal -->                       
-                        <div class="modal fade" id="GuardarModal" tabindex="3" aria-labelledby="GuardarModal" aria-hidden="true">
+                        <!-- Modal -->
+                        <!-- <div class="modal fade" id="GuardarModal" tabindex="3" aria-labelledby="GuardarModal" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content text-center">
                                     <div class="modal-body">
@@ -160,7 +150,7 @@ $aGeneros = $genero->obtenerTodos();
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                 </form>
     </section>
@@ -169,17 +159,67 @@ $aGeneros = $genero->obtenerTodos();
 
 
 <!-- popper js -->
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+
+
+
+<script>
+    (function() {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })
+
+
+    let btnGuardar = document.getElementById("btnGuardar");
+    btnGuardar.addEventListener("click", guardar);
+
+    function guardar() {
+        //alert( " ¡Buen trabajo! " , " ¡Hiciste clic en el botón! " , " Éxito " )   ;
+        swal.fire({
+            icon: "success",
+            title: "Operación exitosa!",
+            text: "",
+            button: "cerrar"
+            
+        });
+    }
+    let btnBorrar = document.getElementById("btnBorrar");
+    btnBorrar.addEventListener("click", borrar);
+
+    function borrar() {
+        swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Poof! Your imaginary file has been deleted!", {
+                        icon: "success",
+                    });
+                } else {
+                    swal("Your imaginary file is safe!");
+                }
+            });
+
+    }
 </script>
-<!-- bootstrap js -->
-<script src="web/js/bootstrap.js"></script>
-<!-- owl slider -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
-</script>
-<!-- isotope js -->
-<script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
-<!-- nice select -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
-<!-- custom js -->
-<script src="web/js/custom.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="sweetalert2.all.min.js"></script>
+<script src="sweetalert2.min.js"></script>
+
+
+<script src="/assets/js/sweetAlert2.js"></script>
 <!-- /.container-fluid -->
