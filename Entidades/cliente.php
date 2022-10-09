@@ -1,5 +1,12 @@
 <?php
-class Cliente
+
+require_once("config.php");
+
+/* $conectar= new Config;
+$conectar->conectar(); */
+
+
+class Cliente extends Config
 {
     private $idcliente;
     private $dni;
@@ -7,15 +14,16 @@ class Cliente
     private $apellido;
     private $fk_idgenero;
     private $telefono;
-
-    private $tipo_genero;
-    
     
    
 
-    public function __construct()
-    {
+    private $tipo_genero;
 
+
+    
+
+    public function __construct(){
+        
     }
 
     public function __get($atributo)
@@ -42,12 +50,15 @@ class Cliente
 
     public function insertar()
     {
-        
+
         //Instancia la clase mysqli con el constructor parametrizado
-       $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
-      
-       //Arma la query
-       $sql = "INSERT INTO clientes (
+        //$mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+        $conex = new Config();
+        $conexion = $conex->conectar();
+        
+        
+        //Arma la query
+        $sql = "INSERT INTO clientes (
                     dni,
                     nombre,
                     apellido,
@@ -60,21 +71,33 @@ class Cliente
                     '$this->fk_idgenero',
                     '$this->telefono'
                 );";
+
+
         //Ejecuta la query
-        if (!$mysqli->query($sql)) 
-        {
-            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
+        return $resultado = mysqli_query($conexion,$sql) or die ("Error al ingresar los registros");
+        $this->idcliente = $conexion->insert_id;
+        mysqli_close($conexion);
+
+
+
+
+
+        /* if (!$conexion->query($sql)) {
+            printf("Error en query: %s\n", $conexion->error . " " . $sql);
         }
         //Obtiene el id generado por la inserción
-        $this->idcliente = $mysqli->insert_id;
+        $this->idcliente = $conexion->insert_id;
         //Cierra la conexión
-        $mysqli->close();
+        $conexion->close(); */
     }
 
     public function actualizar()
     {
 
-        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+        //$mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+        $conex = new Config();
+        $conexion = $conex->conectar();
+
         $sql = "UPDATE clientes SET
                 dni = '" . $this->dni . "',
                 nombre = '" . $this->nombre . "',
@@ -83,26 +106,33 @@ class Cliente
                 telefono = '" . $this->telefono . "'
                 WHERE idcliente = " . $this->idcliente;
 
-        if (!$mysqli->query($sql)) {
+        return $resultado = mysqli_query($conexion, $sql) or die("Error al ingresar los registros");
+        $this->idcliente = $conexion->insert_id;
+        mysqli_close($conexion);
+
+
+        /* if (!$mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
         }
-        $mysqli->close();
+        $mysqli->close(); */
     }
 
     public function eliminar()
     {
-        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+        $conex = new Config();
+        $conexion = $conex->conectar();;
         $sql = "DELETE FROM clientes WHERE idcliente = " . $this->idcliente;
         //Ejecuta la query
-        if (!$mysqli->query($sql)) {
-            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
-        }
-        $mysqli->close();
+        return $resultado = mysqli_query($conexion, $sql) or die("Error al ingresar los registros");
+        mysqli_close($conexion);
     }
 
      public function obtenerPorId()
     {
-        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+        $conex = new Config();
+        $conexion = $conex->conectar();
+        
+
         $sql = "SELECT idcliente,
                         dni,
                         nombre,
@@ -111,26 +141,27 @@ class Cliente
                         telefono
                 FROM clientes
                 WHERE idcliente = $this->idcliente";
-        if (!$resultado = $mysqli->query($sql)) {
-            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
-        }
-
-        //Convierte el resultado en un array asociativo
-        if ($fila = $resultado->fetch_assoc()) {
-            $this->idcliente = $fila["idcliente"];
-            $this->dni = $fila["dni"];
-            $this->nombre = $fila["nombre"];
-            $this->apellido = $fila["apellido"];
-            $this->fk_idgenero = $fila["fk_idgenero"];
-            $this->telefono = $fila["telefono"];
-            
-        }
-        $mysqli->close();
+         $resultado = mysqli_query($conexion, $sql) or die("Error al ingresar los registros");
+         
+         //Convierte el resultado en un array asociativo
+         if ($fila = $resultado->fetch_assoc()) {
+             $this->idcliente = $fila["idcliente"];
+             $this->dni = $fila["dni"];
+             $this->nombre = $fila["nombre"];
+             $this->apellido = $fila["apellido"];
+             $this->fk_idgenero = $fila["fk_idgenero"];
+             $this->telefono = $fila["telefono"];
+             
+            }
+        mysqli_close($conexion);
+        
 
     }
 
      public function obtenerTodos(){
-        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+        $conex = new Config();
+        $conexion = $conex->conectar();
+        
         $sql = "SELECT 
                     A.idcliente,
                     A.dni,
@@ -141,9 +172,7 @@ class Cliente
                     A.telefono
                 FROM clientes A
                 INNER JOIN generos B ON A.fk_idgenero = B.idgenero";
-        if (!$resultado = $mysqli->query($sql)) {
-            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
-        }
+        $resultado = mysqli_query($conexion, $sql) or die("Error al ingresar los registros");
 
         $aResultado = array();
         if($resultado){

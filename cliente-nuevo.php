@@ -1,6 +1,6 @@
 <?php
 
-include_once "config.php";
+//include_once "config.php";
 include_once "entidades/cliente.php";
 include_once "entidades/genero.php";
 include_once "index.php";
@@ -18,6 +18,7 @@ if ($_POST) {
         if (isset($_GET["id"]) && $_GET["id"] > 0) {
             //Actualizo un cliente existente
             $cliente->actualizar();
+            header("Location:cliente-listar.php");
         } else {
             //Es nuevo
             $cliente->insertar();

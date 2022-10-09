@@ -35,7 +35,8 @@ class Genero
 
     public function obtenerPorId()
     {
-        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+        $conex = new Config();
+        $conexion = $conex->conectar();
         $sql = "SELECT idgenero,
                        tipo                        
                 FROM generos
@@ -45,23 +46,18 @@ class Genero
         }
 
         //Convierte el resultado en un array asociativo
-        if ($fila = $resultado->fetch_assoc()) {
-            //$this->idtipoproducto = $fila["idtipoproducto"];
-            $this->tipo = $fila["tipo"];
-        }
-        $mysqli->close();
+        $resultado = mysqli_query($conexion, $sql) or die("Error al ingresar los registros");
     }
 
     public function obtenerTodos()
     {
-        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+        $conex = new Config();
+        $conexion = $conex->conectar();
         $sql = "SELECT 
                     idgenero,
                     tipo
                 FROM generos";
-        if (!$resultado = $mysqli->query($sql)) {
-            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
-        }
+        $resultado = mysqli_query($conexion, $sql) or die("Error al ingresar los registros");
 
         $aResultado = array();
         if ($resultado) {
