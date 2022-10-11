@@ -94,41 +94,25 @@ class Cliente extends Config
 
     public function actualizar()
     {
-
-        //$mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
         $conex = new Config();
         $conexion = $conex->conectar();
-
         $sql = "UPDATE clientes SET
-                dni = '" . $this->dni . "',
                 nombre = '" . $this->nombre . "',
-                apellido = '" . $this->apellido . "',
-                fk_idgenero =  '" . $this->fk_idgenero . "',
-                telefono = '" . $this->telefono . "'
-                WHERE idcliente = "  . $this->idcliente;
+                cuit = '" . $this->cuit . "',
+                telefono = '" . $this->telefono . "',
+                correo = '" . $this->correo . "',
+                fecha_nac =  '" . $this->fecha_nac . "',
+                fk_idprovincia =  '" . $this->fk_idprovincia . "',
+                fk_idlocalidad =  '" . $this->fk_idlocalidad . "',
+                domicilio =  '" . $this->domicilio . "'
+                WHERE idcliente = " . $this->idcliente;
 
-        /* $sql_verificar = "SELECT * FROM clientes 
-                        WHERE dni='$this->dni'";
-        $verificar_dni = mysqli_query($conexion, $sql_verificar);
-        if (mysqli_num_rows($verificar_dni) > 0) {
-            echo '
-                <script>
-                    alert("Este DNI ya está registrado, intenta con otro diferente");
-                    window.location = "cliente-listar.php";
-                </script>
-            ';
-            exit(); 
-        } */
-
-        return $resultado = mysqli_query($conexion, $sql) or die("Error al ingresar los registros");
-        $this->idcliente = $conexion->insert_id;
+        return $resultado = mysqli_query($conexion, $sql) or die("Error");
+        if (!$resultado) {
+            die('error');
+        }
         mysqli_close($conexion);
 
-
-        /* if (!$mysqli->query($sql)) {
-            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
-        }
-        $mysqli->close(); */
     }
 
     public function eliminar()

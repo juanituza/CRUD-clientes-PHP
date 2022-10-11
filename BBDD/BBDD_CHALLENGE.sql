@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Versión del servidor:         10.4.20-MariaDB - mariadb.org binary distribution
+-- Versión del servidor:         10.4.25-MariaDB - mariadb.org binary distribution
 -- SO del servidor:              Win64
 -- HeidiSQL Versión:             12.1.0.6537
 -- --------------------------------------------------------
@@ -30,15 +30,16 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   PRIMARY KEY (`idcliente`) USING BTREE,
   KEY `FK_clientes_sexo` (`fk_idgenero`) USING BTREE,
   CONSTRAINT `FK_clientes_generos` FOREIGN KEY (`fk_idgenero`) REFERENCES `generos` (`idgenero`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Volcando datos para la tabla teco_clientes.clientes: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla teco_clientes.clientes: ~6 rows (aproximadamente)
 INSERT INTO `clientes` (`idcliente`, `dni`, `nombre`, `apellido`, `fk_idgenero`, `telefono`) VALUES
 	(24, '36630478', 'Luciana Soledad', 'Ghio', 2, '1149270395'),
-	(26, '31729647', 'Juan Ignacio', 'Mc Kenna', 1, '01150571913'),
 	(27, '12345678', 'Mariano', 'Perez', 1, '3055923972'),
 	(31, '32951729', 'Francesca', 'Fernandes', 2, '1194768532'),
-	(34, '36987412', 'Fernanda', 'Gonzalez', 2, '1155889966');
+	(34, '36987412', 'Fernanda', 'Gonzalez', 2, '1155889966'),
+	(35, '31729647', 'Juan Ignacio', 'Mc Kenna', 1, '01150571913'),
+	(36, '33333', 'MCKENNA', 'JUAN', 1, '1150571913');
 
 -- Volcando estructura para tabla teco_clientes.generos
 CREATE TABLE IF NOT EXISTS `generos` (
