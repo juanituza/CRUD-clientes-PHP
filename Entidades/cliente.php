@@ -14,6 +14,8 @@ class Cliente extends Config
     private $fk_idgenero;
     private $telefono;
     private $tipo_genero;
+
+    private $resultado;
     
 
     public function __construct(){
@@ -57,7 +59,7 @@ class Cliente extends Config
                     '$this->dni',
                     '$this->nombre',
                     '$this->apellido',
-                    '$this->fk_idgenero',
+                    $this->fk_idgenero,
                     '$this->telefono'
                 );";
         $sql_verificar= "SELECT * FROM clientes 
@@ -65,16 +67,27 @@ class Cliente extends Config
         $verificar_dni=mysqli_query($conexion, $sql_verificar);
         if (mysqli_num_rows($verificar_dni)>0) {
             echo '
-                <script>
-                    alert("Este DNI ya está registrado, intenta con otro diferente");
-                    window.location = "cliente-listar.php";
-                </script>
+            <script>
+            
+            alert("Este DNI ya está registrado, intenta con otro diferente");
+            window.location = "cliente-listar.php";
+            </script>
             ';
             exit();
             
         }
+        return $resultado=mysqli_query($conexion,$sql) ;
 
-        return $resultado = mysqli_query($conexion,$sql) or die ("Error al ingresar los registros");
+
+        if ($resultado) {
+            echo 'Correcto';
+        } else {
+            echo 'Ocurrio un error al guardar los datos';
+        }
+
+        
+           
+  
         $this->idcliente = $conexion->insert_id;
         mysqli_close($conexion);
     }
@@ -87,12 +100,12 @@ class Cliente extends Config
         $conexion = $conex->conectar();
 
         $sql = "UPDATE clientes SET
-                /* dni = '" . $this->dni . "', */
+                dni = '" . $this->dni . "',
                 nombre = '" . $this->nombre . "',
                 apellido = '" . $this->apellido . "',
                 fk_idgenero =  '" . $this->fk_idgenero . "',
                 telefono = '" . $this->telefono . "'
-                WHERE idcliente = " . $this->idcliente;
+                WHERE idcliente = "  . $this->idcliente;
 
         /* $sql_verificar = "SELECT * FROM clientes 
                         WHERE dni='$this->dni'";
@@ -121,7 +134,7 @@ class Cliente extends Config
     public function eliminar()
     {
         $conex = new Config();
-        $conexion = $conex->conectar();;
+        $conexion = $conex->conectar();
         $sql = "DELETE FROM clientes WHERE idcliente = " . $this->idcliente;
         //Ejecuta la query
         return $resultado = mysqli_query($conexion, $sql) or die("Error");
@@ -142,7 +155,7 @@ class Cliente extends Config
                         telefono
                 FROM clientes
                 WHERE idcliente = $this->idcliente";
-         $resultado = mysqli_query($conexion, $sql) or die("Error al obtener los registros");
+         $resultado = mysqli_query($conexion, $sql);
          
          //Convierte el resultado en un array asociativo
          if ($fila = $resultado->fetch_assoc()) {

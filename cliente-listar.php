@@ -61,7 +61,7 @@ $aClientes = $cliente->obtenerTodos();
                                             <td><?php echo $item->telefono; ?></td>
                                             <td><?php echo $item->tipo_genero; ?></td>
                                             <td style="width: 110px;">
-                                                <a href="cliente-nuevo.php?id=<?php echo $item->idcliente; ?>" class="btn btn-outline-secondary mr-2">Editar</a>
+                                                <a href="cliente-editar.php?id=<?php echo $item->idcliente; ?>" class="btn btn-outline-secondary mr-2">Editar</a>
                                             </td>
                                         </tr>
 

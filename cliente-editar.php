@@ -4,8 +4,7 @@
 include_once "entidades/cliente.php";
 include_once "entidades/genero.php";
 include_once "index.php";
-
-
+require_once("entidades/config.php");
 
 
 $cliente = new Cliente();
@@ -13,26 +12,13 @@ $cliente->cargarFormulario($_REQUEST);
 
 
 
-if ($_POST) {
-    if (isset($_POST["btnGuardar"])) {
-        if (isset($_GET["id"]) && $_GET["id"] > 0) {
-            //Actualizo un cliente existente
-            $cliente->actualizar();
-            header("Location:cliente-listar.php");
-        } /* else {
-            //Es nuevo
-            $cliente->insertar();
-            header("Location:cliente-listar.php");
-        }
-    } else if (isset($_POST["btnBorrar"])) {
-        $cliente->eliminar();
-        header("Location:cliente-listar.php");
-    } */
-    }
-}
-if (isset($_GET["id"]) && $_GET["id"] > 0) {
-    $cliente->obtenerPorId();
-}
+
+$id = $_GET['id'];
+$conex = new Config();
+$conexion = $conex->conectar();
+$consulta = "SELECT * FROM clientes WHERE idcliente = $id";
+$resultado = mysqli_query($conexion, $consulta);
+$usuario = mysqli_fetch_assoc($resultado);
 
 $genero = new Genero();
 $aGeneros = $genero->obtenerTodos();
@@ -45,7 +31,7 @@ $aGeneros = $genero->obtenerTodos();
         <div class="container-fluid">
 
             <!-- Page Heading -->
-            <h1 class="h3 mb-4 text-gray-800">Cliente</h1>
+            <h1 class="h3 mb-4 text-gray-800">Editar cliente</h1>
             <div class="row table table-hover border shadow">
                 <form class="d-grid mx-5 g-3 needs-validation" novalidate method="POST">
 
@@ -53,7 +39,7 @@ $aGeneros = $genero->obtenerTodos();
                     <div class="col-6">
 
                         <div class="form-floating mb-3 mt-3">
-                            <input type="text" required class="form-control shadow mx-5" name="txtDni" id="txtDni" pattern="^[0-9]+" value="<?php echo $cliente->dni ?>" maxlength="11" placeholder="DNI">
+                            <input type="text" required class="form-control shadow mx-5" name="txtDni" id="txtDni" pattern="^[0-9]+" value="<?php echo $usuario['dni'] ?>" maxlength="11" placeholder="DNI">
                             <label class="mx-5" for="txtDni">DNI:</label>
                             <div class="valid-feedback mx-5">Documento válido.</div>
                             <div class="invalid-feedback mx-5">Debe contener solo números</div>
@@ -61,7 +47,7 @@ $aGeneros = $genero->obtenerTodos();
                     </div>
                     <div class="col-6 ">
                         <div class="form-floating mb-3 mt-3">
-                            <input type="text" required class="form-control shadow mx-5" name="txtNombre" id="txtNombre" pattern="^[a-zA-Z\s]{2,254}" placeholder=" Nombre" value="<?php echo $cliente->nombre ?>">
+                            <input type="text" required class="form-control shadow mx-5" name="txtNombre" id="txtNombre" pattern="^[a-zA-Z\s]{2,254}" placeholder=" Nombre" value="<?php echo $usuario['nombre'] ?>">
                             <label class="mx-5" for="txtNombre">Nombre:</label>
                             <div class="valid-feedback mx-5">Nombre correcto!.</div>
                             <div class="invalid-feedback mx-5">Debe contener solo letras.</div>
@@ -69,7 +55,7 @@ $aGeneros = $genero->obtenerTodos();
                     </div>
                     <div class="col-6 form-group">
                         <div class="form-floating mb-3 mt-3">
-                            <input type="text" class="form-control shadow mx-5 " name="txtApellido" id="txtApellido" pattern="^[a-zA-Z\s]{2,254}" placeholder="Apellido" required value="<?php echo $cliente->apellido ?>">
+                            <input type="text" class="form-control shadow mx-5 " name="txtApellido" id="txtApellido" pattern="^[a-zA-Z\s]{2,254}" placeholder="Apellido" required value="<?php echo $usuario['apellido'] ?>">
                             <label class="mx-5" for="txtApellido">Apellido:</label>
                             <div class="valid-feedback mx-5">Nombre correcto!.</div>
                             <div class="invalid-feedback mx-5">Debe contener solo letras.</div>
@@ -81,9 +67,9 @@ $aGeneros = $genero->obtenerTodos();
                                 <option value="" disabled selected>Seleccionar</option>
                                 <?php foreach ($aGeneros as $genero) : ?>
                                     <?php if ($cliente->fk_idgenero == $genero->idgenero) : ?>
-                                        <option selected value="<?php echo $genero->idgenero; ?>"><?php echo $genero->tipo; ?></option>
+                                        <option selected value="<?php echo $genero->$usuario['genero']; ?>"><?php echo $genero->tipo; ?></option>
                                     <?php else : ?>
-                                        <option value="<?php echo $genero->idgenero; ?>"><?php echo $genero->tipo; ?></option>
+                                        <option value="<?php echo $genero->$usuario['genero']; ?>"><?php echo $genero->tipo; ?></option>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                             </select>
@@ -93,7 +79,7 @@ $aGeneros = $genero->obtenerTodos();
                     </div>
                     <div class="col-6">
                         <div class="form-floating mb-3 mt-3">
-                            <input type="text" class="form-control shadow mx-5 mb-3" placeholder="Telefono" pattern="^[0-9]+" name="txtTelefono" id="txtTelefono" required value="<?php echo $cliente->telefono ?>">
+                            <input type="text" class="form-control shadow mx-5 mb-3" placeholder="Telefono" pattern="^[0-9]+" name="txtTelefono" id="txtTelefono" required value="<?php echo $usuario['telefono'] ?>">
                             <label class="mx-5" for="txtTelefono">Telefono:</label>
                             <div class="valid-feedback mx-5">Número de teléfono correcto!.</div>
                             <div class="invalid-feedback mx-5">Debe contener solo números</div>
@@ -107,8 +93,8 @@ $aGeneros = $genero->obtenerTodos();
                         </div>
                         <div class="col-4 mt-3">
                             <a href="cliente-listar.php" class="btn btn-primary mr-2">Listado</a>
-                            <button type="submit" class="btn btn-success mr-2" id="btnGuardar" name="btnGuardar" data-bs-toggle="modal" data-bs-target="#GuardarModal">
-                                Guardar
+                            <button type="submit" class="btn btn-success mr-2" id="btnActualizar" name="btnActualizar" data-bs-toggle="modal" data-bs-target="#GuardarModal">
+                                Actualizar
                             </button>
 
                             <a type="submit" href="eliminar_usuario.php?id=<?php echo $cliente->idcliente; ?>" class="btn btn-danger btnBorrar" id="btnBorrar" name="btnBorrar">
@@ -181,7 +167,7 @@ $aGeneros = $genero->obtenerTodos();
 
 
     $(function() {
-        $('#btnGuardar').click(function(e) {
+        $('#btnActualizar').click(function(e) {
 
             var valid = this.form.checkValidity();
 
@@ -199,7 +185,7 @@ $aGeneros = $genero->obtenerTodos();
 
                 $.ajax({
                     type: 'POST',
-                    url: 'Entidades/validar.php',
+                    url: 'Entidades/editar.php',
                     data: {
                         dni: dni,
                         nombre: nombre,

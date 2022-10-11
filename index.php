@@ -37,9 +37,9 @@ $pg = "header";
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="sweetalert2.min.css">
+  
 
-  <script src="web/js/bootstrap.js"></script>
+  <!-- <script src="web/js/bootstrap.js"></script> -->
 
 
 
@@ -144,11 +144,13 @@ $pg = "header";
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/plugins/SweetAlert/dist/sweetalert2.all.js"></script>
   <script src="assets/plugins/SweetAlert/dist/sweetalert2.all.min.js"></script>
+  <script src="assets/js/jquery-3.6.0.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-  
+
 
 
 
