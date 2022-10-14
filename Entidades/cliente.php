@@ -97,20 +97,16 @@ class Cliente extends Config
         $conex = new Config();
         $conexion = $conex->conectar();
         $sql = "UPDATE clientes SET
+                dni = '" . $this->dni . "',
                 nombre = '" . $this->nombre . "',
-                cuit = '" . $this->cuit . "',
-                telefono = '" . $this->telefono . "',
-                correo = '" . $this->correo . "',
-                fecha_nac =  '" . $this->fecha_nac . "',
-                fk_idprovincia =  '" . $this->fk_idprovincia . "',
-                fk_idlocalidad =  '" . $this->fk_idlocalidad . "',
-                domicilio =  '" . $this->domicilio . "'
-                WHERE idcliente = " . $this->idcliente;
+                apellido = '" . $this->apellido . "',
+                fk_idgenero =  '" . $this->fk_idgenero . "',
+                telefono = '" . $this->telefono . "'
+                WHERE idcliente = '"  . $this->idcliente ;
 
-        return $resultado = mysqli_query($conexion, $sql) or die("Error");
-        if (!$resultado) {
-            die('error');
-        }
+        return mysqli_query($conexion, $sql) or die("Error");
+        
+        
         mysqli_close($conexion);
 
     }

@@ -13,15 +13,7 @@ $aGeneros = $genero->obtenerTodos();
 
 
 
-if (isset($_POST)) {
-    if (isset($_POST["btnActualizar"])) {
-        if (isset($_GET["id"]) && $_GET["id"] > 0) {
-            //Actualizo un cliente existente
-            $cliente->actualizar();
-            header('Location: cliente-listar.php');
-        }
-    }
-}
+
 if (isset($_GET["id"]) && $_GET["id"] > 0) {
     $cliente->obtenerPorId();
 }
@@ -35,10 +27,10 @@ if (isset($_GET["id"]) && $_GET["id"] > 0) {
             <!-- Page Heading -->
             <h1 class="h3 mb-4 text-gray-800">Editar cliente</h1>
             <div class="row table table-hover border shadow">
-                <form class="d-grid mx-5 g-3 needs-validation" novalidate method="GET">
+                <form class="d-grid mx-5 g-3 needs-validation" novalidate method="POST" action="/Entidades/editar.php">
 
 
-                    <input type="hidden" required class="form-control shadow mx-5" name="txtId" id="txtId" pattern="^[0-9]+" value="<?php echo $cliente->idcliente ?>"" maxlength=" 11" placeholder="DNI">
+                    <input type="hidden" required class="form-control shadow mx-5" name="txtId" id="txtId"  value="<?php echo $cliente->idcliente ?>"" maxlength=" 11" placeholder="DNI">
                     <div class="col-6">
                         <div class="form-floating mb-3 mt-3">
                             <input type="text" required class="form-control shadow mx-5" name="txtDni" id="txtDni" pattern="^[0-9]+" value="<?php echo $cliente->dni ?>"" maxlength=" 11" placeholder="DNI">
@@ -126,7 +118,65 @@ if (isset($_GET["id"]) && $_GET["id"] > 0) {
     })()
 
 
+    $(function() {
+        $('#btnActualizar').click(function(e) {
 
+            var valid = this.form.checkValidity();
+
+            if (valid) {
+
+                var id = $('#txtId').val();
+                var dni = $('#txtDni').val();
+                var nombre = $('#txtNombre').val();
+                var apellido = $('#txtApellido').val();
+                var genero = $('#lstGenero').val();
+                var telefono = $('#txtTelefono').val();
+
+
+                e.preventDefault();
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'Entidades/editar.php',
+                    data: {
+                        id:id,
+                        dni: dni,
+                        nombre: nombre,
+                        apellido: apellido,
+                        genero: genero,
+                        telefono: telefono
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            'title': '¡Mensaje!',
+                            'text': data,
+                            'icon': 'success',
+                            'showConfirmButton': 'false',
+
+
+                        }).then(function() {
+                            window.location = "cliente-listar.php";
+                        });
+
+                    },
+
+                    error: function(data) {
+                        Swal.fire({
+                            'title': 'Error',
+                            'text': data,
+                            'icon': 'error'
+                        })
+                    }
+                });
+
+
+            } else {
+
+            }
+        });
+
+
+    });
 
     $('#btnBorrar').on('click', function(e) {
         e.preventDefault();
