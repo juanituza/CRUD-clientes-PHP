@@ -30,7 +30,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0) {
                 <form class="d-grid mx-5 g-3 needs-validation" novalidate method="POST" action="/Entidades/editar.php">
 
 
-                    <input type="hidden" required class="form-control shadow mx-5" name="txtId" id="txtId"  value="<?php echo $cliente->idcliente ?>"" maxlength=" 11" placeholder="DNI">
+                    <input type="hidden" required class="form-control shadow mx-5" name="txtId" id="txtId" value="<?php echo $cliente->idcliente ?>"" maxlength=" 11" placeholder="DNI">
                     <div class="col-6">
                         <div class="form-floating mb-3 mt-3">
                             <input type="text" required class="form-control shadow mx-5" name="txtDni" id="txtDni" pattern="^[0-9]+" value="<?php echo $cliente->dni ?>"" maxlength=" 11" placeholder="DNI">
@@ -61,9 +61,9 @@ if (isset($_GET["id"]) && $_GET["id"] > 0) {
                                 <option value="" disabled selected>Seleccionar</option>
                                 <?php foreach ($aGeneros as $genero) : ?>
                                     <?php if ($cliente->fk_idgenero == $genero->idgenero) : ?>
-                                        <option selected value="<?php echo $genero->$usuario['genero']; ?>"><?php echo $genero->tipo; ?></option>
+                                        <option selected value="<?php echo $genero->idgenero; ?>"><?php echo $genero->tipo; ?></option>
                                     <?php else : ?>
-                                        <option value="<?php echo $genero->$usuario['genero']; ?>"><?php echo $genero->tipo; ?></option>
+                                        <option value="<?php echo $genero->idgenero; ?>"><?php echo $genero->tipo; ?></option>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                             </select>
@@ -139,7 +139,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0) {
                     type: 'POST',
                     url: 'Entidades/editar.php',
                     data: {
-                        id:id,
+                        id: id,
                         dni: dni,
                         nombre: nombre,
                         apellido: apellido,

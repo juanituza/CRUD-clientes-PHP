@@ -101,8 +101,8 @@ class Cliente extends Config
                 nombre = '" . $this->nombre . "',
                 apellido = '" . $this->apellido . "',
                 fk_idgenero =  '" . $this->fk_idgenero . "',
-                telefono = '" . $this->telefono . "'
-                WHERE idcliente = '"  . $this->idcliente ;
+                telefono = '" . $this->telefono ."'
+                WHERE idcliente = "  . $this->idcliente;
 
         return mysqli_query($conexion, $sql) or die("Error");
         
